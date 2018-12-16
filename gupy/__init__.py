@@ -2,8 +2,9 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 __metaclass__ = type
 
-import requests
 from urllib.parse import urlparse, urlencode
+
+import requests
 
 
 BASE_URL = 'https://api.godsunchained.com/v0'
