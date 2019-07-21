@@ -11,6 +11,18 @@ BASE_URL = 'https://api.godsunchained.com/v0'
 WEI_PER_ETH = 1e18
 
 
+def _tuples(key, values):
+    """list of key-value tuples"""
+    return [(key, value) for value in values]
+
+
+def _call(endpoint, kws):
+    """API call wrapper"""
+    url = '{}/{}?'.format(BASE_URL, endpoint)
+    url += urlencode(kws)
+    return requests.get(url).json()
+
+
 def referral_total(in_eth=False, **kws):
     """Total referral """
     kws.update({'perPage': 1000}) # TODO
@@ -26,3 +38,18 @@ def referral_total(in_eth=False, **kws):
 def referral_gained_ratio(user):
     """ratio of referrals gained/given"""
     return referral_total(referrer=user)/referral_total(purchaser=user)
+
+
+def properties(user_ids):
+    """user properties"""
+    kws = _tuples('user_id', user_ids)
+    result = _call('properties', kws)
+    return result
+
+
+def predict(user_id, opponent_id, game_mode=2):
+    """Match propability"""
+    kws = {'user_id': user_id,
+           'opponent_id': opponent_id,
+           'game_mode': game_mode}
+    return _call('predict', kws)
