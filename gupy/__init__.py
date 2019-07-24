@@ -44,7 +44,14 @@ def properties(user_ids):
     """user properties"""
     kws = _tuples('user_id', user_ids)
     result = _call('properties', kws)
-    return result
+    return result['records']
+
+
+def rank(user_id, game_mode=2):
+    """per hame mode user rank"""
+    kws = dict(user_id=user_id, game_mode=game_mode)
+    result = _call('rank', kws)
+    return result['records']
 
 
 def predict(user_id, opponent_id, game_mode=2):
@@ -53,3 +60,13 @@ def predict(user_id, opponent_id, game_mode=2):
            'opponent_id': opponent_id,
            'game_mode': game_mode}
     return _call('predict', kws)
+
+
+def user_stats(user_id):
+    """user summary"""
+    props = properties([user_id])
+    urank = rank(user_id)
+    stats = props[0]
+    stats.update(urank[0])
+    return stats
+
