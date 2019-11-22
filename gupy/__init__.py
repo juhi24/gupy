@@ -68,3 +68,7 @@ def user_stats(user_id):
     stats.update(urank[0])
     return stats
 
+
+def gas_price():
+    stationapi = 'https://ethgasstation.info/json/ethgasAPI.json'
+    return  requests.get(stationapi).json()
