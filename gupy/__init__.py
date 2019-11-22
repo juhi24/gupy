@@ -71,4 +71,6 @@ def user_stats(user_id):
 
 def gas_price():
     stationapi = 'https://ethgasstation.info/json/ethgasAPI.json'
-    return  requests.get(stationapi).json()
+    prices = requests.get(stationapi).json()
+    prices['averageWait'] = prices['avgWait']
+    return prices
